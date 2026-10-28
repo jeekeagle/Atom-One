@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atom 方法体系 — Logo 设计提案</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root {
+    --ink:#1A1A1A; --sub:#6E6A63; --line:#E4E2DD; --paper:#FAFAF8;
+    --accent:#8A4A3F;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    background: var(--paper); color: var(--ink);
+    -webkit-font-smoothing: antialiased; line-height:1.7;
+  }
+  .mono { font-family: "SF Mono", "JetBrains Mono", Consolas, monospace; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+
+  header { padding: 96px 0 72px; border-bottom: 1px solid var(--line); }
+  .eyebrow { font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+             color:var(--sub); margin-bottom:28px; }
+  h1 { font-size: clamp(44px,7vw,84px); font-weight:200; letter-spacing:.06em;
+        line-height:1.1; margin-bottom:8px; }
+  h1 .zh { font-weight:300; margin-left:18px; letter-spacing:.12em; }
+  .lead { max-width:640px; margin-top:28px; font-size:16px; color:var(--sub);
+           font-weight:300; line-height:1.9; }
+  .meta { display:flex; gap:40px; flex-wrap:wrap; margin-top:40px;
+           padding-top:24px; border-top:1px solid var(--line); }
+  .meta div { font-size:12px; }
+  .meta .k { color:var(--sub); letter-spacing:.12em; text-transform:uppercase; margin-bottom:4px; }
+  .swatch { display:inline-block; width:13px; height:13px; border-radius:2px;
+             margin-right:8px; vertical-align:-2px; }
+
+  .round-head { display:flex; align-items:baseline; gap:16px;
+                 margin:0 0 8px; padding-top:72px; }
+  .round-head h2 { font-size:26px; font-weight:300; letter-spacing:.08em; }
+  .round-head .n { font-size:11px; color:var(--sub); letter-spacing:.2em; }
+  .round-note { font-size:13.5px; color:var(--sub); max-width:700px;
+                 font-weight:300; line-height:1.9; margin-bottom:34px; }
+
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+           gap:56px 40px; padding:0 0 40px; }
+  .card { display:flex; flex-direction:column; align-items:center; text-align:center; }
+  .stage { width:100%; aspect-ratio:1/1; display:flex; align-items:center;
+            justify-content:center; background:#fff; border:1px solid var(--line);
+            position:relative; overflow:hidden;
+            transition:transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s cubic-bezier(.16,1,.3,1); }
+  .card:hover .stage { transform:translateY(-5px); box-shadow:0 18px 50px rgba(0,0,0,.07); }
+  .stage svg { width:58%; height:58%; color:var(--ink); display:block; }
+  .stage .glow { position:absolute; inset:0; pointer-events:none; opacity:0;
+                  transition:opacity .8s ease;
+                  background:radial-gradient(circle at 50% 50%, rgba(138,74,63,.07), transparent 62%); }
+  .card:hover .stage .glow { opacity:1; }
+  .no { position:absolute; top:14px; left:16px; font-size:11px; color:#B8B4AD; letter-spacing:.1em; }
+  .title { font-size:19px; font-weight:500; letter-spacing:.1em; margin-top:26px; }
+  .sub { font-size:10.5px; color:var(--sub); letter-spacing:.2em; text-transform:uppercase; margin-top:9px; }
+  .tag { display:inline-block; font-size:10.5px; color:var(--accent); letter-spacing:.1em;
+          border:1px solid rgba(138,74,63,.28); border-radius:2px; padding:3px 9px; margin-top:14px; }
+  .why { font-size:13.5px; color:var(--sub); font-weight:300; line-height:1.95;
+          margin-top:18px; text-align:justify; }
+
+  .scale { padding:0 0 100px; }
+  .sec-h { display:flex; align-items:baseline; gap:18px; margin-bottom:12px; }
+  .sec-h h2 { font-size:26px; font-weight:300; letter-spacing:.08em; }
+  .sec-h .n { font-size:11px; color:var(--sub); letter-spacing:.2em; }
+  .note { font-size:13px; color:var(--sub); margin-bottom:32px; max-width:720px; font-weight:300; line-height:1.9; }
+  .st { overflow-x:auto; background:#fff; border:1px solid var(--line); }
+  table { border-collapse:collapse; width:100%; min-width:620px; }
+  th, td { padding:13px 16px; text-align:center; border-bottom:1px solid #F0EEEA; }
+  th { font-size:10.5px; color:var(--sub); letter-spacing:.16em; text-transform:uppercase; font-weight:500; }
+  td:first-child, th:first-child { text-align:left; padding-left:24px; white-space:nowrap; }
+  td.sz { width:88px; }
+  td.sz img { display:block; margin:0 auto; }
+  .rn { color:#B8B4AD; font-size:10.5px; }
+
+  .usage { padding:0 0 110px; }
+  .usage-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+                 gap:20px; margin-top:30px; }
+  .u { background:#fff; border:1px solid var(--line); padding:26px 22px; }
+  .u h4 { font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--sub);
+           font-weight:500; margin-bottom:16px; }
+  .u .demo { height:88px; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+  .u .demo svg { width:56px; height:56px; }
+  .u p { font-size:12px; color:var(--sub); font-weight:300; line-height:1.8; }
+  .u.dark { background:var(--ink); border-color:var(--ink); }
+  .u.dark h4, .u.dark p { color:#9A968F; }
+  .u.dark .demo svg { color:#F2F0EC; }
+
+  footer { border-top:1px solid var(--line); padding:44px 0 72px; text-align:center;
+            font-size:11px; color:var(--sub); letter-spacing:.16em; text-transform:uppercase; }
+  .bar { width:34px; height:1px; background:var(--ink); opacity:.28; margin:0 auto 24px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="eyebrow mono">Logo Design Proposal / 2026</div>
+    <h1>Atom<span class="zh">原子式智能体单元</span></h1>
+    <p class="lead">
+      为一套「原子式智能体单元」方法体系设计的品牌标记。设计立意取自原子物理学的三件套——
+      不可再分的核、可组合的单元、可无限递归的内部结构。视觉语言走学术出版物的克制路线：
+      纯黑、无渐变、无阴影，靠几何关系而非装饰建立辨识度。
+    </p>
+    <div class="meta">
+      <div><div class="k mono">Concept</div><div>原子式智能体单元</div></div>
+      <div><div class="k mono">Style</div><div>学术专业 · 克制几何</div></div>
+      <div><div class="k mono">Variants</div><div>15 个方案（8 + 7）</div></div>
+      <div><div class="k mono">Color</div><div>
+        <span class="swatch" style="background:#1A1A1A"></span>
+        <span class="swatch" style="background:#8A4A3F"></span>currentColor 可控</div></div>
+    </div>
+  </header>
+
+  <div class="round-head"><h2>第一轮</h2><span class="n mono">ROUND 01 · 8 VARIANTS</span></div>
+  <p class="round-note">
+    从原子物理学的三大母题出发——轨道与核、辐射与点阵、容器与单元——
+    逐一试探这套视觉语言能承载多少语义。覆盖线、点、几何、模块、网络、字母六个母题方向。
+  </p>
+  <div class="grid" id="grid1"></div>
+
+  <div class="round-head"><h2>第二轮</h2><span class="n mono">ROUND 02 · 7 VARIANTS</span></div>
+  <p class="round-note">
+    换七个此前未尝试的母题：层积、干涉、负空间通道、递归分形、棱镜解析、切分、对握。
+    重点不在几何本身的新奇，而在能不能把方法论的某个动作讲清楚——
+    分解、组合、留白、收敛，都是这套体系里真实发生的操作。
+  </p>
+  <div class="grid" id="grid2"></div>
+
+  <div class="scale">
+    <div class="sec-h"><h2>尺寸适应性</h2><span class="n mono">SCALE TEST</span></div>
+    <p class="note">
+      实际下采样至 16 / 32 / 64 / 128 px 后再放大显示，以保留真实像素特征。
+      经验规律：<strong>闭合几何与实心块</strong>（03 蜂巢、05 模块、11 开窗、14 切分、15 对握）
+      全尺寸可用；<strong>细线与开放结构</strong>（01 轨道、04 弧线、06 网络、10 摩尔、12 分形）
+      在 16px 下会并线或灰飞，建议限定 64px 以上使用。
+    </p>
+    <div class="st">
+      <table>
+        <thead><tr><th>方案</th><th>16px</th><th>32px</th><th>64px</th><th>128px</th></tr></thead>
+        <tbody id="scaleBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="usage">
+    <div class="sec-h"><h2>应用建议</h2><span class="n mono">USAGE</span></div>
+    <p class="note">
+      所有方案使用 <span class="mono">currentColor</span> 着色，置于任意父容器即可整体换色——
+      随链接变蓝、随主题变深，是可直接落地的工程约定。
+    </p>
+    <div class="usage-grid" id="usageGrid"></div>
+  </div>
+</div>
+<footer><div class="bar"></div>Atom Method System · Logo Exploration</footer>
+
+<script>
+const DATA = [
+  {
+    "id": "v1-orbital",
+    "title": "轨道原子",
+    "sub": "ORBITAL ATOM",
+    "tag": "纯几何 · 线系统",
+    "philosophy": "两条不同倾角的椭圆轨道交叠于一颗实心核。轨道代表智能体在环境中反复试错的运行轨迹，核是被抽象出来的那一个不可再分的单元。刻意让两条轨道不对称，避免落入完全对称的呆板。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\" stroke-width=\"2.4\"><ellipse cx=\"50\" cy=\"50\" rx=\"35\" ry=\"13\" transform=\"rotate(-28 50 50)\"/><ellipse cx=\"50\" cy=\"50\" rx=\"35\" ry=\"13\" transform=\"rotate(32 50 50)\"/></g><circle cx=\"50\" cy=\"50\" r=\"7\" fill=\"currentColor\"/></svg>"
+  },
+  {
+    "id": "v2-concentric",
+    "title": "同心点阵",
+    "sub": "CONCENTRIC FIELD",
+    "tag": "点阵 · 涌现",
+    "philosophy": "中心一颗核，外围两圈微粒由内而外递减尺寸、递增间距。表达单元从核心向外辐射、层层展开的关系——原子式方法体系里，单点不构成系统，粒子的分布才构成结构。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"currentColor\"><circle cx=\"50\" cy=\"50\" r=\"4.5\"/><circle cx=\"50.0\" cy=\"67.0\" r=\"2.8\"/><circle cx=\"35.28\" cy=\"58.5\" r=\"2.8\"/><circle cx=\"35.28\" cy=\"41.5\" r=\"2.8\"/><circle cx=\"50.0\" cy=\"33.0\" r=\"2.8\"/><circle cx=\"64.72\" cy=\"41.5\" r=\"2.8\"/><circle cx=\"64.72\" cy=\"58.5\" r=\"2.8\"/><circle cx=\"78.98\" cy=\"57.76\" r=\"1.9\"/><circle cx=\"71.21\" cy=\"71.21\" r=\"1.9\"/><circle cx=\"57.76\" cy=\"78.98\" r=\"1.9\"/><circle cx=\"42.24\" cy=\"78.98\" r=\"1.9\"/><circle cx=\"28.79\" cy=\"71.21\" r=\"1.9\"/><circle cx=\"21.02\" cy=\"57.76\" r=\"1.9\"/><circle cx=\"21.02\" cy=\"42.24\" r=\"1.9\"/><circle cx=\"28.79\" cy=\"28.79\" r=\"1.9\"/><circle cx=\"42.24\" cy=\"21.02\" r=\"1.9\"/><circle cx=\"57.76\" cy=\"21.02\" r=\"1.9\"/><circle cx=\"71.21\" cy=\"28.79\" r=\"1.9\"/><circle cx=\"78.98\" cy=\"42.24\" r=\"1.9\"/></g></svg>"
+  },
+  {
+    "id": "v3-hex",
+    "title": "蜂巢六边",
+    "sub": "HEX LATTICE",
+    "tag": "纯几何 · 嵌套",
+    "philosophy": "外层六边形是智能体的边界容器，内层六边形是可被拆解与重组的单元，中心一点是贯穿始终的判断核心。六边形选择而非圆形，是在秩序感与柔性之间取平衡。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\" stroke-linejoin=\"round\"><polygon points=\"84,50 67,79.4 33,79.4 16,50 33,20.6 67,20.6\" stroke-width=\"3\"/><polygon points=\"50,34 63.9,42 63.9,58 50,66 36.1,58 36.1,42\" stroke-width=\"2.6\"/></g><circle cx=\"50\" cy=\"50\" r=\"3.6\" fill=\"currentColor\"/></svg>"
+  },
+  {
+    "id": "v4-arcs",
+    "title": "错位弧线",
+    "sub": "OFFSET ARCS",
+    "tag": "线系统 · 循环",
+    "philosophy": "三段半径不同、起止错开的圆弧共同指向中心核。方法论不是一条直线流程，而是多个尺度上的循环往复、最终收敛到同一个判断。弧线留白处即思考发生的间隙。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\" stroke-linecap=\"round\"><path d=\"M 17.11 61.97 A 35 35 0 0 1 70.08 21.33\" stroke-width=\"2.8\"/><path d=\"M 41.45 26.51 A 25 25 0 0 1 67.68 67.68\" stroke-width=\"2.4\"/><path d=\"M 63.86 42.0 A 16 16 0 0 1 48.61 65.94\" stroke-width=\"2.2\"/></g><circle cx=\"50\" cy=\"50\" r=\"5\" fill=\"currentColor\"/></svg>"
+  },
+  {
+    "id": "v5-modules",
+    "title": "模块聚合",
+    "sub": "MODULAR ASSEMBLY",
+    "tag": "重复几何 · 组合",
+    "philosophy": "六个圆角方块等距环绕一颗核。这是「原子式」最直白的翻译：每个单元形状相同、功能可替，靠聚合而非层级形成系统。圆角处理让模块感不流于生硬。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"currentColor\"><rect x=\"71.0\" y=\"45.0\" width=\"10\" height=\"10\" rx=\"2.6\"/><rect x=\"58.0\" y=\"67.52\" width=\"10\" height=\"10\" rx=\"2.6\"/><rect x=\"32.0\" y=\"67.52\" width=\"10\" height=\"10\" rx=\"2.6\"/><rect x=\"19.0\" y=\"45.0\" width=\"10\" height=\"10\" rx=\"2.6\"/><rect x=\"32.0\" y=\"22.48\" width=\"10\" height=\"10\" rx=\"2.6\"/><rect x=\"58.0\" y=\"22.48\" width=\"10\" height=\"10\" rx=\"2.6\"/><circle cx=\"50\" cy=\"50\" r=\"6.5\"/></g></svg>"
+  },
+  {
+    "id": "v6-network",
+    "title": "编排网络",
+    "sub": "ORCHESTRATION",
+    "tag": "节点网络 · 协作",
+    "philosophy": "中心节点体量最大，三个卫星节点按主次递减并以曲线相连。表达智能体不是孤岛，方法体系的价值在于单元之间的编排关系。远处的节点刻意做小做淡，形成深度。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M 50 50 Q 38 60, 26 70\"/><path d=\"M 50 50 Q 61 41, 72 32\"/><path d=\"M 50 50 Q 62 59, 74 68\"/></g><g fill=\"currentColor\"><circle cx=\"50\" cy=\"50\" r=\"6.5\"/><circle cx=\"26\" cy=\"70\" r=\"4.5\"/><circle cx=\"72\" cy=\"32\" r=\"4.5\"/><circle cx=\"74\" cy=\"68\" r=\"3.4\"/></g></svg>"
+  },
+  {
+    "id": "v7-letter-a",
+    "title": "字母骨架",
+    "sub": "LETTER FRAME",
+    "tag": "字母抽象 · 识别",
+    "philosophy": "取字母 A 的结构基因而非字形本身：两笔斜线构成骨架，横杠中央嵌一颗实心原子。既有品牌识别度，又保留学术出版物的克制气质。适合作为课程与论文体系的署名标记。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M 28 76 L 50 24 L 72 76\"/><path d=\"M 36.5 58 L 63.5 58\"/></g><circle cx=\"50\" cy=\"58\" r=\"4.8\" fill=\"currentColor\"/></svg>"
+  },
+  {
+    "id": "v8-recursive",
+    "title": "递归嵌套",
+    "sub": "RECURSIVE NEST",
+    "tag": "同形递减 · 纵深",
+    "philosophy": "左下一个大环，内部再套一个小环，右上一个独立的中环。这是方法体系最本质的一层：单元内部仍由更小的单元构成，分析可以无限向下递归。三个环同为正圆，不因大小而变形，保持体系的一致性。",
+    "round": 1,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\"><circle cx=\"36\" cy=\"64\" r=\"26\" stroke-width=\"2.6\"/><circle cx=\"36\" cy=\"64\" r=\"11\" stroke-width=\"2.4\"/><circle cx=\"66\" cy=\"36\" r=\"16\" stroke-width=\"2.4\"/></g><circle cx=\"36\" cy=\"64\" r=\"3.2\" fill=\"currentColor\"/></svg>"
+  },
+  {
+    "id": "v9-strata",
+    "title": "层积",
+    "sub": "STRATA",
+    "tag": "层叠 · 阶跃",
+    "philosophy": "四条宽度递增的横条自上而下排布，最底层一条实心作基座。对应方法体系里的阶跃结构：越往下越是已经打下的判断基座，越往上越是待验证的推演。宽度递进即难度递进。",
+    "round": 2,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><g><rect x=\"35.0\" y=\"22\" width=\"30\" height=\"9\" rx=\"2.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\"/><rect x=\"29.0\" y=\"37\" width=\"42\" height=\"9\" rx=\"2.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\"/><rect x=\"23.0\" y=\"52\" width=\"54\" height=\"9\" rx=\"2.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\"/><rect x=\"17.0\" y=\"67\" width=\"66\" height=\"9\" rx=\"2.5\"/></g></svg>"
+  },
+  {
+    "id": "v10-moire",
+    "title": "摩尔干涉",
+    "sub": "MOIRÉ",
+    "tag": "线系统 · 涌现",
+    "philosophy": "两族各自规整的等距线，一族整体旋转后交叠，在疏密变化中凭空生出第三种秩序。这是「单元相互作用生成结构」最物理的注脚：没有任何一个单元知道全局，全局却自己长了出来。",
+    "round": 2,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><g stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\"><line x1=\"18\" y1=\"24\" x2=\"82\" y2=\"24\"/><line x1=\"18\" y1=\"35\" x2=\"82\" y2=\"35\"/><line x1=\"18\" y1=\"46\" x2=\"82\" y2=\"46\"/><line x1=\"18\" y1=\"57\" x2=\"82\" y2=\"57\"/><g transform=\"rotate(28 50 50)\"><line x1=\"24\" y1=\"18\" x2=\"24\" y2=\"82\"/><line x1=\"35\" y1=\"18\" x2=\"35\" y2=\"82\"/><line x1=\"46\" y1=\"18\" x2=\"46\" y2=\"82\"/><line x1=\"57\" y1=\"18\" x2=\"57\" y2=\"82\"/></g></g></svg>"
+  },
+  {
+    "id": "v11-aperture",
+    "title": "开窗通道",
+    "sub": "APERTURE",
+    "tag": "模块 · 负空间",
+    "philosophy": "方阵单元中挖出一条 S 形通道，其余保留。方法体系在满地的单元里开辟一条可通行的路径——通道本身不承载内容，它标出的是「从哪里穿过」。大面积留白与密集方块形成硬对比。",
+    "round": 2,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><g fill=\"currentColor\"><rect x=\"14\" y=\"14\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"32\" y=\"14\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"50\" y=\"14\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"68\" y=\"14\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"14\" y=\"32\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"32\" y=\"32\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"14\" y=\"50\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"68\" y=\"50\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"50\" y=\"68\" width=\"15\" height=\"15\" rx=\"3.2\"/><rect x=\"68\" y=\"68\" width=\"15\" height=\"15\" rx=\"3.2\"/></g></svg>"
+  },
+  {
+    "id": "v12-fractal",
+    "title": "分形分解",
+    "sub": "FRACTAL BRANCH",
+    "tag": "递归 · 分支",
+    "philosophy": "一个问题分两支，每支再分两支，直到末端那几个实心点。末端即「不可再分的最小单元」——方法论走到这里才真正落地。枝干越分越细，单元越分越小。",
+    "round": 2,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><g stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" fill=\"none\"><line x1=\"50\" y1=\"22\" x2=\"32\" y2=\"48\"/><line x1=\"50\" y1=\"22\" x2=\"68\" y2=\"48\"/><line x1=\"32\" y1=\"48\" x2=\"22\" y2=\"74\"/><line x1=\"32\" y1=\"48\" x2=\"42\" y2=\"74\"/><line x1=\"68\" y1=\"48\" x2=\"58\" y2=\"74\"/><line x1=\"68\" y1=\"48\" x2=\"74\" y2=\"74\"/></g><g fill=\"currentColor\"><circle cx=\"32\" cy=\"48\" r=\"3.1\"/><circle cx=\"68\" cy=\"48\" r=\"3.1\"/><circle cx=\"22\" cy=\"74\" r=\"2.6\"/><circle cx=\"42\" cy=\"74\" r=\"2.6\"/><circle cx=\"58\" cy=\"74\" r=\"2.6\"/><circle cx=\"74\" cy=\"74\" r=\"2.6\"/><circle cx=\"50\" cy=\"22\" r=\"3.8\"/></g></svg>"
+  },
+  {
+    "id": "v13-prism",
+    "title": "棱镜分解",
+    "sub": "PRISM",
+    "tag": "几何 · 分析",
+    "philosophy": "一束输入光射入棱镜，出来时已散成多束。智能体接收到的同一个问题，经方法体系处理后会拆成几个不同性质的子问题。棱镜本身不产生颜色，它只负责改变方向。",
+    "round": 2,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\" stroke-linecap=\"round\"><line x1=\"6\" y1=\"50\" x2=\"32\" y2=\"50\" stroke-width=\"2.8\"/><line stroke-width=\"1.7\" x1=\"64\" y1=\"50\" x2=\"92\" y2=\"30\"/><line stroke-width=\"1.7\" x1=\"64\" y1=\"50\" x2=\"92\" y2=\"42\"/><line stroke-width=\"1.7\" x1=\"64\" y1=\"50\" x2=\"92\" y2=\"58\"/><line stroke-width=\"1.7\" x1=\"64\" y1=\"50\" x2=\"92\" y2=\"70\"/></g><polygon points=\"32,26 32,74 60,50\" stroke=\"currentColor\" stroke-width=\"2.8\" stroke-linejoin=\"round\"/></svg>"
+  },
+  {
+    "id": "v14-split",
+    "title": "切分",
+    "sub": "SPLIT BLOCK",
+    "tag": "实心 · 分离",
+    "philosophy": "一个方块沿对角线切成两半，错开一道缝，一半实心一半描边。实心是已被确认的部分，描边是尚待验证的部分。切分动作本身就是方法论的第一件事。",
+    "round": 2,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\"><polygon points=\"20.5,20.5 72.5,20.5 20.5,72.5\" fill=\"currentColor\"/><polygon points=\"27.5,79.5 79.5,27.5 79.5,79.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linejoin=\"round\"/></svg>"
+  },
+  {
+    "id": "v15-bracket",
+    "title": "对握",
+    "sub": "BRACKET",
+    "tag": "几何 · 作用域",
+    "philosophy": "一对括号夹住一颗实心核。括号是边界与上下文，核是被界定的那件事。这个方案几乎只剩两个元素，是全套里留白最多、最像符号而非图形的一个。",
+    "round": 2,
+    "svg": "<svg viewBox=\"0 0 100 100\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"><g stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"><path d=\"M 38 24 Q 20 50, 38 76\"/><path d=\"M 62 24 Q 80 50, 62 76\"/></g><circle cx=\"50\" cy=\"50\" r=\"5.5\" fill=\"currentColor\"/></svg>"
+  }
+];
+
+const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+
+const render = (arr, startNo) => arr.map((v,i) => `
+  <div class="card">
+    <div class="stage">
+      <div class="glow"></div>
+      <span class="no mono">${String(startNo+i).padStart(2,'0')}</span>
+      ${v.svg}
+    </div>
+    <div class="title">${esc(v.title)}</div>
+    <div class="sub mono">${esc(v.sub)}</div>
+    <div class="tag">${esc(v.tag)}</div>
+    <p class="why">${esc(v.philosophy)}</p>
+  </div>`).join('');
+
+const r1 = DATA.filter(x=>x.round===1), r2 = DATA.filter(x=>x.round===2);
+document.getElementById('grid1').innerHTML = render(r1, 1);
+document.getElementById('grid2').innerHTML = render(r2, r1.length+1);
+
+document.getElementById('scaleBody').innerHTML = DATA.map(v=>`
+  <tr>
+    <td>${esc(v.title)} <span class="mono rn">${esc(v.sub)}</span></td>
+    ${[16,32,64,128].map(s=>`<td class="sz"><img src="png/${v.id}.png" width="${s}" height="${s}" alt=""></td>`).join('')}
+  </tr>`).join('');
+
+// 应用示例：挑 5 个代表性 + 深色反白
+const PICK = ['v3-hex','v7-letter-a','v8-recursive','v10-moire','v15-bracket'];
+const byId = Object.fromEntries(DATA.map(x=>[x.id,x]));
+document.getElementById('usageGrid').innerHTML = PICK.map(id=>`
+  <div class="u">
+    <h4 class="mono">${esc(byId[id].title)}</h4>
+    <div class="demo">${byId[id].svg}</div>
+    <p>${esc(byId[id].tag)}<br>${esc(byId[id].sub)}</p>
+  </div>`).join('') + `
+  <div class="u dark">
+    <h4 class="mono">反白模式</h4>
+    <div class="demo">${byId['v8-recursive'].svg}</div>
+    <p>深色底反白<br>RECURSIVE NEST</p>
+  </div>`;
+</script>
+</body>
+</html>

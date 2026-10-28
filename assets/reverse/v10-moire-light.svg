@@ -1,0 +1,8 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#F2F0EC" stroke-width="1.6" stroke-linecap="round">
+    <line x1="18" y1="24" x2="82" y2="24"/><line x1="18" y1="35" x2="82" y2="35"/><line x1="18" y1="46" x2="82" y2="46"/><line x1="18" y1="57" x2="82" y2="57"/>
+    <g transform="rotate(28 50 50)">
+      <line x1="24" y1="18" x2="24" y2="82"/><line x1="35" y1="18" x2="35" y2="82"/><line x1="46" y1="18" x2="46" y2="82"/><line x1="57" y1="18" x2="57" y2="82"/>
+    </g>
+  </g>
+</svg>

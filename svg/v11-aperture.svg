@@ -1,0 +1,5 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <g fill="currentColor">
+    <rect x="14" y="14" width="15" height="15" rx="3.2"/><rect x="32" y="14" width="15" height="15" rx="3.2"/><rect x="50" y="14" width="15" height="15" rx="3.2"/><rect x="68" y="14" width="15" height="15" rx="3.2"/><rect x="14" y="32" width="15" height="15" rx="3.2"/><rect x="32" y="32" width="15" height="15" rx="3.2"/><rect x="14" y="50" width="15" height="15" rx="3.2"/><rect x="68" y="50" width="15" height="15" rx="3.2"/><rect x="50" y="68" width="15" height="15" rx="3.2"/><rect x="68" y="68" width="15" height="15" rx="3.2"/>
+  </g>
+</svg>

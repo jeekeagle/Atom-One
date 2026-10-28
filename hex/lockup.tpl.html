@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atom · 联合锁定组合（图标 + 字标）</title>
+<style>
+  :root{
+    --ink:#1A1A1A; --paper:#F7F5F1; --line:#E3DED6; --muted:#6B665E; --rust:#8A4A3F;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"PingFang SC","Microsoft YaHei","Segoe UI",sans-serif;
+       background:var(--paper);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+  header{padding:76px 0 40px;border-bottom:1px solid var(--line)}
+  .eyebrow{font-size:12px;letter-spacing:.22em;color:var(--rust);font-weight:600;margin-bottom:18px}
+  h1{font-size:46px;font-weight:700;letter-spacing:-.02em;line-height:1.25;margin-bottom:16px}
+  .lede{font-size:17px;color:var(--muted);max-width:680px}
+  .meta{display:flex;gap:28px;flex-wrap:wrap;margin-top:26px;font-size:13px;color:var(--muted)}
+  .meta b{color:var(--ink);font-weight:600}
+
+  .console{background:#fff;border:1px solid var(--line);border-radius:14px;padding:28px;
+           margin:36px 0;display:grid;grid-template-columns:300px 1fr;gap:32px}
+  .ctl-group{margin-bottom:22px}
+  .ctl-group:last-child{margin-bottom:0}
+  .ctl-label{font-size:11px;letter-spacing:.14em;color:var(--muted);font-weight:600;
+             margin-bottom:10px;text-transform:uppercase}
+  .chips{display:flex;flex-wrap:wrap;gap:7px}
+  .chip{font-size:12.5px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;
+        background:#fff;cursor:pointer;transition:.15s;color:var(--ink);user-select:none}
+  .chip:hover{border-color:var(--ink)}
+  .chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .swatches{display:flex;flex-wrap:wrap;gap:9px}
+  .sw{width:38px;height:38px;border-radius:9px;cursor:pointer;border:2px solid transparent;
+      position:relative;transition:.15s;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .sw:hover{transform:scale(1.08)}
+  .sw.on{border-color:var(--ink);box-shadow:0 0 0 3px var(--paper),0 0 0 5px var(--ink)}
+  .sw i{position:absolute;right:3px;bottom:3px;width:11px;height:11px;border-radius:50%;
+        border:1.5px solid rgba(255,255,255,.9)}
+
+  .stage{background:var(--stage,#fff);border:1px solid var(--line);border-radius:10px;
+         padding:38px 30px;display:flex;flex-direction:column;align-items:center;
+         justify-content:center;min-height:300px;transition:background .3s}
+  .stage svg{width:100%;max-width:440px;height:auto;display:block}
+  .stage-info{margin-top:20px;text-align:center}
+  .stage-name{font-size:15px;font-weight:600}
+  .stage-note{font-size:12.5px;color:var(--muted);margin-top:4px}
+  .stage-code{font-size:11px;color:#999;margin-top:8px;font-family:ui-monospace,monospace}
+  .stage.dark{background:#14161A!important}
+  .stage.dark .stage-note,.stage.dark .stage-code{color:#9A958C}
+
+  .size-row{display:flex;align-items:flex-end;gap:22px;justify-content:center;
+            margin-top:24px;padding-top:20px;border-top:1px dashed var(--line);flex-wrap:wrap}
+  .size-row figure{text-align:center}
+  .size-row figcaption{font-size:10.5px;color:var(--muted);margin-top:7px}
+  .size-row svg{height:auto!important}
+
+  section{padding:52px 0}
+  .sec-head{margin-bottom:26px}
+  .sec-head h2{font-size:26px;font-weight:700;letter-spacing:-.01em;margin-bottom:8px}
+  .sec-head p{font-size:14.5px;color:var(--muted);max-width:660px}
+
+  .mrow{display:grid;grid-template-columns:118px repeat(10,1fr);gap:10px;margin-bottom:10px;
+        align-items:stretch}
+  .mlabel{display:flex;flex-direction:column;justify-content:center;gap:2px;
+          padding-right:10px;text-align:right}
+  .mlabel b{font-size:12.5px;font-weight:600}
+  .mlabel small{font-size:9.5px;color:var(--muted);font-family:ui-monospace,monospace}
+  .cell{background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px 10px;
+        text-align:center;cursor:pointer;transition:.16s}
+  .cell:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .cell.on{border-color:var(--rust);box-shadow:0 0 0 2px rgba(138,74,63,.16)}
+  .cell .lk{height:58px;display:flex;align-items:center;justify-content:center}
+  .cell .lk svg{width:100%;height:auto;max-width:150px}
+  .cell .cname{font-size:10.5px;display:block;margin-top:8px;color:var(--muted);line-height:1.35}
+  .mrow.head .cell{background:none;border:none;padding:0 0 4px}
+  .mrow.head .cell .lk{display:none}
+  .mrow.head .cell .cname{font-size:11.5px;font-weight:600;color:var(--muted)}
+
+  .apps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .app{border-radius:12px;padding:30px 24px;border:1px solid var(--line);background:#fff}
+  .app .lk{margin-bottom:16px}
+  .app .lk svg{width:100%;height:auto;max-width:260px}
+  .app p{font-size:12px;color:var(--muted);line-height:1.7}
+  .app.darkapp{background:#14161A;border-color:#14161A}
+  .app.darkapp p{color:#9A958C}
+  .app.blueapp{background:#1B44C8;border-color:#1B44C8}
+  .app.blueapp p{color:rgba(255,255,255,.75)}
+  .app.paperapp{background:#EDE7DC;border-color:#EDE7DC}
+
+  footer{padding:44px 0 60px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+  @media(max-width:900px){
+    .console{grid-template-columns:1fr}
+    .apps{grid-template-columns:repeat(2,1fr)}
+    .mrow{grid-template-columns:96px repeat(5,1fr)}
+    .mrow.head .cell:nth-child(n+7),.mrow .cell:nth-child(n+8){display:none}
+  }
+  @media(max-width:560px){
+    h1{font-size:32px}
+    .apps{grid-template-columns:1fr}
+    .mrow{grid-template-columns:80px repeat(3,1fr)}
+    .mrow.head .cell:nth-child(n+5),.mrow .cell:nth-child(n+6){display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">ATOM METHOD · HORIZONTAL LOCKUP</div>
+  <h1>联合锁定组合</h1>
+  <p class="lede">图标在左、字标在右的横向锁定组合。字形已<b>转曲为路径</b>，不依赖任何系统字体——换一台机器打开，字形分毫不差。</p>
+  <div class="meta">
+    <span><b>100</b> 组合（10 样式 × 10 配色）</span>
+    <span>主标 <b>Atom</b> / 副标 <b>METHOD SYSTEM</b></span>
+    <span>矢量 SVG · 透明底 PNG · 反白版</span>
+    <span>单色版主标用 <b>currentColor</b></span>
+  </div>
+</header>
+
+<div class="console">
+  <div>
+    <div class="ctl-group">
+      <div class="ctl-label">结构样式</div>
+      <div class="chips" id="styleChips"></div>
+    </div>
+    <div class="ctl-group">
+      <div class="ctl-label">配色方案</div>
+      <div class="swatches" id="palSwatches"></div>
+      <div style="margin-top:14px;font-size:12.5px;color:var(--muted);line-height:1.65" id="palNote"></div>
+    </div>
+    <div class="ctl-group">
+      <div class="ctl-label">预览底色</div>
+      <div class="chips" id="bgChips">
+        <span class="chip on" data-bg="#ffffff">白底</span>
+        <span class="chip" data-bg="#F7F5F1">纸底</span>
+        <span class="chip" data-bg="#EDE7DC">米底</span>
+        <span class="chip" data-bg="#14161A">深底</span>
+      </div>
+    </div>
+    <div class="ctl-group">
+      <div class="ctl-label">副标题</div>
+      <div class="chips" id="tagChips">
+        <span class="chip on" data-tag="1">显示</span>
+        <span class="chip" data-tag="0">隐藏</span>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <div class="stage" id="stage">
+      <div id="stageLogo"></div>
+      <div class="stage-info">
+        <div class="stage-name" id="stageName"></div>
+        <div class="stage-note" id="stageNote"></div>
+        <div class="stage-code" id="stageCode"></div>
+      </div>
+      <div class="size-row" id="sizeRow"></div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="sec-head">
+    <h2>锁定组合矩阵</h2>
+    <p>行 = 配色，列 = 结构样式。点击任意一格载入上方预览台。</p>
+  </div>
+  <div id="matrix"></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>应用示例</h2>
+    <p>同一套锁定组合落在不同承载面上的样子。</p>
+  </div>
+  <div class="apps" id="apps"></div>
+</section>
+
+<footer>
+  <div>Atom 方法体系 · 联合锁定组合　|　字形经 fontTools 转曲，跨环境渲染一致</div>
+</footer>
+
+</div>
+
+<script>
+const STYLES = __STYLES__;
+const PALETTES = __PALETTES__;
+const LOGO_SVG = __LOGO_SVG__;
+
+let curStyle = STYLES[0], curPal = PALETTES[0], curBg = "#ffffff", showTag = true;
+
+function el(html){const d=document.createElement('div');d.innerHTML=html.trim();return d.firstElementChild;}
+
+function lockupSVG(st, pal, main, accent, withTag){
+  const s = LOGO_SVG[st.id] || LOGO_SVG['s1-nested'];
+  const main_ = main, accent_ = accent;
+  // 替换 LOGO_SVG 中的占位
+  let out = s.replace(/__MAIN__/g, main_).replace(/__ACCENT__/g, accent_);
+  if(!withTag) out = out.replace(/<!--TAGLINE-->[\s\S]*?<!--\/TAGLINE-->/, '');
+  return out;
+}
+
+// ── 样式与配色选择器 ──
+const styleChips = document.getElementById('styleChips');
+STYLES.forEach(s=>{
+  const c = el(`<span class="chip" data-id="${s.id}">${s.name}</span>`);
+  c.onclick = ()=>{curStyle=s;render();};
+  styleChips.appendChild(c);
+});
+const palSwatches = document.getElementById('palSwatches');
+PALETTES.forEach(p=>{
+  const s = el(`<span class="sw" data-id="${p.id}" title="${p.name}" style="background:${p.main}"><i style="background:${p.accent}"></i></span>`);
+  s.onclick = ()=>{curPal=p;render();};
+  palSwatches.appendChild(s);
+});
+document.getElementById('bgChips').onclick = e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  curBg=c.dataset.bg;
+  document.querySelectorAll('#bgChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  render();
+};
+document.getElementById('tagChips').onclick = e=>{
+  const c=e.target.closest('.chip'); if(!c) return;
+  showTag = c.dataset.tag==='1';
+  document.querySelectorAll('#tagChips .chip').forEach(x=>x.classList.toggle('on',x===c));
+  render();
+};
+
+function sync(){
+  document.querySelectorAll('#styleChips .chip').forEach(c=>c.classList.toggle('on',c.dataset.id===curStyle.id));
+  document.querySelectorAll('#palSwatches .sw').forEach(s=>s.classList.toggle('on',s.dataset.id===curPal.id));
+  document.getElementById('palNote').innerHTML=
+    `<b style="color:var(--ink)">${curPal.name}</b> · ${curPal.note}<br>
+     <span style="font-family:ui-monospace,monospace;font-size:11px">${curPal.main} / ${curPal.accent}</span><br>
+     <span style="font-size:11.5px">适用：${curPal.usage}</span>`;
+  document.querySelectorAll('#matrix .cell').forEach(c=>
+    c.classList.toggle('on', c.dataset.s===curStyle.id && c.dataset.p===curPal.id));
+}
+
+function render(){
+  const stage=document.getElementById('stage');
+  stage.style.background=curBg;
+  stage.classList.toggle('dark', curBg==='#14161A');
+  const onDark = curBg==='#14161A';
+  const main = onDark ? '#F2F0EC' : curPal.main;
+  const accent = onDark ? curPal.accent : curPal.accent;
+
+  document.getElementById('stageLogo').innerHTML = lockupSVG(curStyle,curPal,main,accent,showTag);
+  document.getElementById('stageName').textContent = curStyle.name+' · '+curPal.name;
+  document.getElementById('stageNote').textContent = curStyle.note;
+  document.getElementById('stageCode').textContent = curStyle.id+'--'+curPal.id;
+
+  const sizes=[320,200,120,72];
+  document.getElementById('sizeRow').innerHTML = sizes.map(s=>{
+    const svg = lockupSVG(curStyle,curPal,main,accent,showTag);
+    return `<figure><div style="width:${s}px">${svg}</div><figcaption>${s}px 宽</figcaption></figure>`;
+  }).join('');
+  sync();
+}
+
+// ── 矩阵 ──
+const matrix=document.getElementById('matrix');
+matrix.appendChild(el(`<div class="mrow head"><div></div>
+  ${STYLES.map(s=>`<div class="cell"><div class="cname">${s.name}</div></div>`).join('')}</div>`));
+PALETTES.forEach(p=>{
+  const row=el(`<div class="mrow">
+    <div class="mlabel"><b>${p.name}</b><small>${p.main}</small><small>${p.accent}</small></div>
+    ${STYLES.map(s=>`<div class="cell" data-s="${s.id}" data-p="${p.id}">
+      <div class="lk">${lockupSVG(s,p,p.main,p.accent,true)}</div>
+      <span class="cname">${s.name}</span></div>`).join('')}</div>`);
+  row.querySelectorAll('.cell').forEach(cell=>{
+    cell.onclick=()=>{
+      curStyle=STYLES.find(x=>x.id===cell.dataset.s);
+      curPal=PALETTES.find(x=>x.id===cell.dataset.p);
+      render();
+      document.querySelector('.console').scrollIntoView({behavior:'smooth'});
+    };
+  });
+  matrix.appendChild(row);
+});
+
+// ── 应用示例 ──
+document.getElementById('apps').innerHTML=`
+  <div class="app">${lockupSVG(STYLES[0],PALETTES[0],'#1A1A1A','#8A4A3F',true)}
+    <p>纸面主用。墨黑保证印刷还原，锈红只落在内核，面积小、够点睛。</p></div>
+  <div class="app blueapp">${lockupSVG(STYLES[1],PALETTES[6],'#FFFFFF','#FFFFFF',true)}
+    <p>深色物料主用。钴蓝实心外壳在屏幕与印刷品上识别度最高。</p></div>
+  <div class="app darkapp">${lockupSVG(STYLES[2],PALETTES[3],'#F2F0EC','#1B9AAA',true)}
+    <p>展台与大屏。外轮廓反白，内核用品牌色作唯一亮源。</p></div>
+  <div class="app paperapp">${lockupSVG(STYLES[4],PALETTES[8],'#3A322B','#C4A484',true)}
+    <p>纸质封面与展陈。低饱和暖调，与米色纸面同属一个色温。</p></div>
+  <div class="app">${lockupSVG(STYLES[5],PALETTES[0],'#1A1A1A','#8A4A3F',false)}
+    <p>去核轮廓 + 无副标。极简版式，用于页眉、角标等空间受限处。</p></div>
+  <div class="app darkapp">${lockupSVG(STYLES[9],PALETTES[6],'#F2F0EC','#FFFFFF',true)}
+    <p>粗线版反白。大尺寸场景（主视觉、展位主画面）用，线条更厚重。</p></div>
+`;
+
+render();
+</script>
+</body>
+</html>
