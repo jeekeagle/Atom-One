@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Atom-One · 单页知识库</title>
-<link rel="icon" type="image/svg+xml" href="assets/atom-favicon.svg">
+<link rel="icon" type="image/svg+xml" href="brand/svg/atom-icon-s1-nested-ink-rust.svg">
 <meta name="description" content="Atom-One：原子式智能体单元。存放并索引所有单页（single page）内容 —— skill 文档、品牌资产、方法说明。">
 
 <style>
@@ -159,6 +159,16 @@ main{padding-top:var(--bar)}
   font-family:var(--sans);font-size:16px;color:var(--text-3);
 }
 
+/* 标志墙 */
+.wall{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;margin-top:26px}
+.wall a{
+  aspect-ratio:1/1;border:1px solid var(--hair-2);background:#fff;
+  display:flex;align-items:center;justify-content:center;padding:6px;
+  transition:border-color .2s ease,transform .2s var(--ease);
+}
+.wall a:hover{border-color:var(--hair-3);transform:translateY(-2px)}
+.wall a img{width:100%;height:100%;object-fit:contain;display:block}
+
 /* 三栏说明 */
 .tri{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;margin-top:30px}
 .tri>*{min-width:0}
@@ -215,6 +225,7 @@ footer a:hover{color:var(--accent)}
   .stats{grid-template-columns:1fr 1fr}
   .stats .s{border-bottom:1px solid var(--hair)}
   .cards,.tri{grid-template-columns:1fr}
+  .wall{grid-template-columns:repeat(5,minmax(0,1fr))}
   .block-hd .l h2{font-size:34px}
 }
 @media (max-width:640px){
@@ -231,18 +242,13 @@ footer a:hover{color:var(--accent)}
 
 <nav class="nav">
   <a class="brand" href="index.html">
-    <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
-      <g stroke-linejoin="round" stroke="currentColor">
-        <polygon points="84,50 67,79.44 33,79.44 16,50 33,20.56 67,20.56" stroke-width="3"/>
-        <polygon points="50,34 63.86,42 63.86,58 50,66 36.14,58 36.14,42" stroke-width="2.6" opacity=".55"/>
-      </g>
-      <circle cx="50" cy="50" r="3.6" fill="currentColor"/>
-    </svg>
+    <img src="brand/svg/atom-icon-s1-nested-ink-rust.svg" alt="Atom">
     <span class="nm">ATOM ONE</span>
   </a>
   <span class="sp"></span>
   <div class="r">
     <a href="#pages">单页</a>
+    <a href="#brand">标志</a>
     <a href="#about">关于</a>
     <a href="#add" class="hide-s">如何新增</a>
     <a href="https://github.com/jeekeagle/Atom-One">GitHub</a>
@@ -269,13 +275,7 @@ footer a:hover{color:var(--accent)}
           </div>
         </div>
         <div class="mark">
-          <svg viewBox="0 0 100 100" fill="none" aria-hidden="true">
-            <g stroke-linejoin="round" stroke="currentColor">
-              <polygon points="84,50 67,79.44 33,79.44 16,50 33,20.56 67,20.56" stroke-width="2.6"/>
-              <polygon points="50,34 63.86,42 63.86,58 50,66 36.14,58 36.14,42" stroke-width="2.4" opacity=".55"/>
-            </g>
-            <circle cx="50" cy="50" r="3.4" fill="currentColor"/>
-          </svg>
+          <img src="brand/svg/atom-icon-s1-nested-ink-rust.svg" alt="Atom 标志" width="150" height="150">
           <div class="cap">Hex Lattice · 蜂巢六边</div>
         </div>
       </div>
@@ -319,12 +319,30 @@ footer a:hover{color:var(--accent)}
     </div>
   </section>
 
+  <!-- ══════════ 标志系统 ══════════ -->
+  <section class="block" id="brand">
+    <div class="wrap">
+      <div class="block-hd">
+        <div class="l">
+          <div class="pn">02 · BRAND</div>
+          <h2>标志系统 · 100 组</h2>
+          <p>10 种结构 × 10 套配色，每组含全色图标、深底反白版与「图标 + 字标」锁定组合 —— 共 300 个透明底矢量文件，字形已转曲，可直接使用。</p>
+        </div>
+      </div>
+      <div class="wall" id="wall"></div>
+      <div class="cta" style="margin-top:26px">
+        <a class="btn solid" href="pages/atom-logo-system.html">打开标志系统 →</a>
+        <a class="btn" href="brand/manifest.json">manifest.json</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ══════════ 关于 ══════════ -->
   <section class="block" id="about">
     <div class="wrap">
       <div class="block-hd">
         <div class="l">
-          <div class="pn">02 · ABOUT</div>
+          <div class="pn">03 · ABOUT</div>
           <h2>Atom-One 是什么</h2>
           <p>名字来自 Atom 方法体系的核心：把智能体拆解到不可再分的最小单元，再看单元如何组合成系统。</p>
         </div>
@@ -354,7 +372,7 @@ footer a:hover{color:var(--accent)}
     <div class="wrap">
       <div class="block-hd">
         <div class="l">
-          <div class="pn">03 · CONTRIBUTE</div>
+          <div class="pn">04 · CONTRIBUTE</div>
           <h2>再加一篇单页要几步</h2>
           <p>给自己和 AI 的备忘录：目录位置、登记格式、视觉约定。</p>
         </div>
@@ -399,6 +417,14 @@ footer a:hover{color:var(--accent)}
    以后加页面，优先改 pages.json
    =========================================== */
 const FALLBACK = [
+  {
+    title: "Atom 标志系统",
+    desc: "10 种结构 × 10 套配色 = 100 组，每组三形态：全色图标、深底反白、图标 + 字标。可切换组合并下载。",
+    url: "pages/atom-logo-system.html",
+    cat: "asset",
+    tags: ["logo", "品牌", "资产"],
+    date: "2026-10-28"
+  },
   {
     title: "logo-generator",
     desc: "Skill 详解：定位与功能、七阶段实现逻辑、四层架构、安装调用与踩坑清单。",
@@ -513,6 +539,36 @@ fetch('pages.json', {cache: 'no-store'})
     }
   })
   .catch(() => {/* 保持内嵌清单 */});
+
+/* ===========================================
+   标志墙：10 结构 × 10 配色
+   点任意一格 → 跳到标志系统页并带上组合参数
+   =========================================== */
+const S_IDS = ['s1-nested','s2-solid-outer','s3-solid-inner','s4-ring','s5-triple',
+               's6-no-core','s7-hex-core','s8-cluster','s9-fine','s10-bold'];
+const P_IDS = ['ink-rust','ink-gold','ink-teal','navy-cyan','forest-lime',
+               'plum-coral','cobalt-white','black-white','sand-umber','slate-mint'];
+const P_NAME = {'ink-rust':'墨黑锈红','ink-gold':'墨黑鎏金','ink-teal':'墨黑靛青','navy-cyan':'藏青湖蓝',
+  'forest-lime':'深林青柠','plum-coral':'紫棠珊瑚','cobalt-white':'钴蓝纯白','black-white':'纯黑白',
+  'sand-umber':'沙棕炭褐','slate-mint':'石板薄荷'};
+const S_NAME = {'s1-nested':'标准嵌套','s2-solid-outer':'外实心中空','s3-solid-inner':'内实心','s4-ring':'蜂房环',
+  's5-triple':'三层嵌套','s6-no-core':'去核轮廓','s7-hex-core':'六边形核','s8-cluster':'蜂窝簇',
+  's9-fine':'细线版','s10-bold':'粗线版'};
+
+/* 强调色为白色的两套（钴蓝纯白 / 纯黑白）在白底上看不见内轮廓 —— 用深底 + 反白版呈现 */
+const WHITE_ACC = {cobalt: 'cobalt-white', black: 'black-white'};
+const P_MAIN = {'ink-rust':'#1A1A1A','ink-gold':'#1C1B19','ink-teal':'#15202B','navy-cyan':'#12233B',
+  'forest-lime':'#1E3328','plum-coral':'#2E1F3D','cobalt-white':'#1B44C8','black-white':'#000000',
+  'sand-umber':'#3A322B','slate-mint':'#26313B'};
+
+document.getElementById('wall').innerHTML = P_IDS.map(p => {
+  const dark = (p === 'cobalt-white' || p === 'black-white');
+  return S_IDS.map(s => `<a href="pages/atom-logo-system.html#${s}|${p}" title="${S_NAME[s]} × ${P_NAME[p]}"
+    style="background:${dark ? P_MAIN[p] : '#fff'}">
+    <img src="brand/png/atom-icon${dark ? '-reverse' : ''}-${s}-${p}-256.png"
+         alt="${S_NAME[s]} × ${P_NAME[p]}" loading="lazy" width="52" height="52">
+  </a>`).join('');
+}).join('');
 
 /* 出现动画 */
 const io = new IntersectionObserver((es) => {

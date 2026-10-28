@@ -7,9 +7,11 @@
 
 本仓库同时作为 **Atom-One 单页知识库** 使用：
 
-- `index.html` —— 首页，索引全部单页（支持搜索与分类筛选）
+- `index.html` —— 首页，索引全部单页（支持搜索与分类筛选），并展示 100 组标志墙
 - `pages.json` —— 单页清单；新增页面在此追加一条即可，首页自动收录
 - `skills/logo-generator.html` —— `logo-generator` skill 详解（滚动式单页：定位与功能 / 实现逻辑 / 使用方式）
+- `pages/atom-logo-system.html` —— 标志系统：10 结构 × 10 配色切换预览、三种形态、下载链接
+- `brand/` —— 标志资产：`svg/` 300 个矢量、`png/` 200 张 256px 位图、`manifest.json` 300 条记录
 - `hex/` —— 蜂巢六边方案的变体、字标锁定、规范手册与 WebGL 动态背景
 - `assets/atom-favicon.svg` —— 站点图标
 

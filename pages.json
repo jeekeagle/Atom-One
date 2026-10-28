@@ -4,6 +4,14 @@
   "note": "首页 index.html 会读取本文件渲染卡片。新增单页：把 HTML 放进 skills/ 或 pages/，再在此数组追加一条。",
   "pages": [
     {
+      "title": "Atom 标志系统",
+      "desc": "10 种结构 × 10 套配色 = 100 组，每组三形态：全色图标、深底反白、图标 + 字标。可切换组合并下载。",
+      "url": "pages/atom-logo-system.html",
+      "cat": "asset",
+      "tags": ["logo", "品牌", "资产"],
+      "date": "2026-10-28"
+    },
+    {
       "title": "logo-generator",
       "desc": "Skill 详解：定位与功能、七阶段实现逻辑、四层架构、安装调用与踩坑清单。",
       "url": "skills/logo-generator.html",
