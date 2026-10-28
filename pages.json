@@ -1,0 +1,55 @@
+{
+  "site": "Atom-One",
+  "updated": "2026-10-28",
+  "note": "首页 index.html 会读取本文件渲染卡片。新增单页：把 HTML 放进 skills/ 或 pages/，再在此数组追加一条。",
+  "pages": [
+    {
+      "title": "logo-generator",
+      "desc": "Skill 详解：定位与功能、七阶段实现逻辑、四层架构、安装调用与踩坑清单。",
+      "url": "skills/logo-generator.html",
+      "cat": "skill",
+      "tags": ["skill", "品牌", "SVG"],
+      "date": "2026-10-28"
+    },
+    {
+      "title": "Atom 标志 · 十五方案总览",
+      "desc": "两轮共 15 个 logo 方案的横向对比：母题、核心命题与 16px 可用性。",
+      "url": "showcase.html",
+      "cat": "asset",
+      "tags": ["logo", "方案", "对比"],
+      "date": "2026-10-28"
+    },
+    {
+      "title": "蜂巢六边 · 结构与配色",
+      "desc": "选定方案的 10 种结构 × 10 套配色预览，共 100 组变体。",
+      "url": "hex/preview.html",
+      "cat": "asset",
+      "tags": ["logo", "变体", "配色"],
+      "date": "2026-10-28"
+    },
+    {
+      "title": "锁定组合 · 图标 + 字标",
+      "desc": "图标在左、Atom 字标在右的锁定组合：10 种结构 × 10 套配色。",
+      "url": "hex/lockup.html",
+      "cat": "asset",
+      "tags": ["logo", "字标", "锁定"],
+      "date": "2026-10-28"
+    },
+    {
+      "title": "品牌规范手册",
+      "desc": "16 页 A4 规范：几何数值、安全区、最小尺寸、三态配色与禁用示例。",
+      "url": "hex/brand_guide.html",
+      "cat": "asset",
+      "tags": ["规范", "品牌", "PDF"],
+      "date": "2026-10-28"
+    },
+    {
+      "title": "动态背景 · WebGL",
+      "desc": "6 套 GLSL 着色器，真实标志注入并按背景明暗自动取前景色。",
+      "url": "hex/atom_webgl.html",
+      "cat": "asset",
+      "tags": ["WebGL", "着色器", "动态"],
+      "date": "2026-10-28"
+    }
+  ]
+}
